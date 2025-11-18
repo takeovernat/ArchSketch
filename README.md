@@ -1,36 +1,95 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ArchSketch ✨  
+**Turn natural language into beautiful software architecture diagrams — instantly.**
 
-## Getting Started
 
-First, run the development server:
+### Live Example
+Just type:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```
+React frontend with Next.js and Tailwind, FastAPI backend, PostgreSQL database, Redis cache, authentication via Firebase Auth, deployed on AWS ECS with Terraform
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+→ Get a clean, professional Mermaid diagram in <2 seconds.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Features
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- ✍️ Natural language input (no syntax required)
+- 🤖 Powered by Claude 3.5 Sonnet (or GPT-4o)
+- 📊 Renders with Mermaid.js – beautiful, customizable diagrams
+- 🔄 “Refine Diagram” – edit your description and improve iteratively
+- 💾 Export as PNG or SVG
+- 🔗 Share via link (diagram encoded in URL)
+- 💡 Smart suggestions (e.g., “You didn’t mention auth – want Firebase?”)
+- 🚀 Fully responsive, minimal, modern UI (Next.js 14 + Tailwind + shadcn/ui)
+- ⚡ Zero-config deploy on Vercel
 
-## Learn More
+## Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+| Layer            | Technology                                      |
+|------------------|-------------------------------------------------|
+| Framework        | Next.js 14 (App Router) + TypeScript            |
+| Styling          | Tailwind CSS + shadcn/ui                        |
+| Diagrams         | Mermaid.js                                      |
+| AI               | Anthropic Claude 3.5 Sonnet (default) or OpenAI GPT-4o |
+| Exports          | html-to-image                                   |
+| Icons            | lucide-react                                    |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Quick Start (Local)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+# 1. Clone & enter
+git clone https://github.com/yourusername/archsketch.git
+cd archsketch
 
-## Deploy on Vercel
+# 2. Install
+npm install
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# 3. Add your API key
+cp .env.local.example .env.local
+# Then paste your Anthropic key:
+# ANTHROPIC_API_KEY=sk-ant-...
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# (Optional: use OpenAI instead)
+# OPENAI_API_KEY=sk-...
+# USE_CLAUDE=false
+
+# 4. Run
+npm run dev
+```
+
+Open http://localhost:3000 and start sketching!
+
+## Deploy Your Own (1-click)
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fyourusername%2Farchsketch)
+
+Just add your `ANTHROPIC_API_KEY` (or OpenAI key) in Vercel project settings → done!
+
+## Environment Variables
+
+| Variable           | Description                            | Required |
+|--------------------|----------------------------------------|----------|
+| `ANTHROPIC_API_KEY`| Claude API key                         | Yes (if USE_CLAUDE=true) |
+| `OPENAI_API_KEY`   | GPT-4o key (fallback/alternative)      | Yes (if USE_CLAUDE=false) |
+| `USE_CLAUDE`       | Set to `false` to use OpenAI instead   | Optional (default: true) |
+
+## Contributing
+
+Feel free to open issues or PRs!  
+Ideas on the roadmap:
+- Save diagrams to accounts
+- Diagram templates / presets
+- Export to Draw.io, Excalidraw, PlantUML
+- AI-powered best practice recommendations
+- Multi-page architecture support
+
+## License
+
+MIT © 2025 – Feel free to use, modify, and ship!
+
+---
+
+Made with ❤️ by developers, for developers.  
+Stop drawing boxes in PowerPoint — start sketching architectures in English.  
+
+**ArchSketch – Because diagrams should be as easy as describing them.**
