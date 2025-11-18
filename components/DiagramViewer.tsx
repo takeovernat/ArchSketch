@@ -65,7 +65,8 @@ export default function DiagramViewer({ mermaidCode, onRefine }: Props) {
       }
     }
 
-    const dataUrl = format === 'png' ? await toPng(svgEl) : await toSvg(svgEl);
+    const dataUrl = format === 'png' ? await toPng(svgEl as unknown as HTMLElement)
+    : await toSvg(svgEl as unknown as HTMLElement);
     const a = document.createElement('a');
     a.href = dataUrl;
     a.download = `archsketch-diagram.${format}`;
