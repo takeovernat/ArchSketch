@@ -18,7 +18,7 @@ export default function InputBox({ value, onChange, onSubmit, loading }: InputBo
         className="min-h-48 text-lg"
       />
       <div className="flex justify-center">
-        <Button onClick={onSubmit} disabled={loading || !value.trim()} size="lg">
+        <Button onClick={onSubmit} disabled={loading || !value.trim()}>
           {loading ? "Generating..." : "Generate Diagram"}
         </Button>
       </div>
