@@ -10,7 +10,7 @@ import AuthButton from "@/components/AuthButton";
 import { createClient } from "@/lib/supabase/client";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { AlertCircle } from "lucide-react";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/NavBar";
 import { isValidArchitectureDescription } from "@/utils/validateDescription";
 
 const supabase = createClient();
