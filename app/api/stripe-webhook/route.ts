@@ -34,13 +34,31 @@ export async function POST(req: Request) {
 
     if (userId && credits > 0) {
       console.log(`Adding ${credits} credits to user ${userId}`);
-      await supabase.from("user_credits").upsert(
+      const { data: existingCredits, error: fetchError } = await supabase
+        .from("user_credits")
+        .select("total_credits")
+        .eq("user_id", userId)
+        .maybeSingle();
+
+      if (fetchError) {
+        console.error("Failed to fetch current credits:", fetchError);
+        return new Response("Failed to update credits", { status: 500 });
+      }
+
+      const newTotal = (existingCredits?.total_credits ?? 0) + credits;
+
+      const { error: upsertError } = await supabase.from("user_credits").upsert(
         {
           user_id: userId,
-          total_credits: supabase.raw(`total_credits + ${credits}`),
+          total_credits: newTotal,
         },
         { onConflict: "user_id" }
       );
+
+      if (upsertError) {
+        console.error("Failed to upsert credits:", upsertError);
+        return new Response("Failed to update credits", { status: 500 });
+      }
     }
   }
 
