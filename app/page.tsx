@@ -9,7 +9,7 @@ import PricingModal from "@/components/PricingModal";
 import AuthButton from "@/components/AuthButton";
 import { createClient } from "@/lib/supabase/client";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { AlertCircle } from "lucide-react";
+import { AlertCircle, ChevronDown, ChevronUp } from "lucide-react";
 import Navbar from "@/components/NavBar";
 import { isValidArchitectureDescription } from "@/utils/validateDescription";
 
@@ -24,6 +24,30 @@ export default function Home() {
   const [user, setUser] = useState<any>(null);
   const [credits, setCredits] = useState<{ remaining: number } | null>(null);
   const [showPricing, setShowPricing] = useState(false);
+  const [showExamples, setShowExamples] = useState(false);
+
+  const examples = [
+    {
+      title: "Full stack MVP",
+      description: "Next.js 14 + React frontend with Tailwind and shadcn/ui, FastAPI + Python backend, PostgreSQL database, Redis cache, JWT auth with refresh tokens, deployed on AWS ECS with Terraform and GitHub Actions CI/CD"
+    },
+    {
+      title: "Microservices Beast Mode",
+      description: "Event-driven microservices: React + Vite frontend, five Node.js services (users, orders, payments, inventory, notifications), Kafka for events, MongoDB + PostgreSQL, Redis pub/sub, Kubernetes on GCP, auth with Auth0"
+    },
+    {
+      title: "Minimal MVP",
+      description: "React frontend, Express.js backend, SQLite database, login with Google OAuth"
+    },
+    {
+      title: "Mobile + Backend Stack",
+      description: "React Native mobile app (iOS + Android), NestJS backend with TypeScript, Prisma + PostgreSQL, Firebase Auth, push notifications via FCM, hosted on Render"
+    },
+    {
+      title: "AI-Powered Architecture",
+      description: "Next.js frontend with Vercel AI SDK, Python FastAPI backend calling OpenAI and Anthropic APIs, vector database with Pinecone, Redis for rate limiting, Supabase for user auth and file storage, deployed on Vercel and Railway"
+    }
+  ];
 
   // Load user + credits
   useEffect(() => {
@@ -132,6 +156,44 @@ export default function Home() {
       <div className="max-w-5xl mx-auto px-6">
         <Navbar />
         <Header />
+
+        {/* Examples Dropdown */}
+        <div className="mb-6">
+          <button
+            onClick={() => setShowExamples(!showExamples)}
+            className="flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 transition-colors mx-auto"
+          >
+            <span>Show examples</span>
+            {showExamples ? (
+              <ChevronUp className="w-4 h-4" />
+            ) : (
+              <ChevronDown className="w-4 h-4" />
+            )}
+          </button>
+
+          {showExamples && (
+            <div className="mt-4 space-y-2 bg-gray-50 rounded-lg p-4 border border-gray-200">
+              {examples.map((example, index) => (
+                <button
+                  key={index}
+                  onClick={() => {
+                    setDescription(example.description);
+                    setShowExamples(false);
+                  }}
+                  className="w-full text-left p-3 bg-white rounded-md hover:bg-blue-50 hover:border-blue-200 border border-gray-200 transition-all group"
+                >
+                  <div className="font-medium text-gray-900 group-hover:text-blue-600 mb-1">
+                    {index + 1}. {example.title}
+                  </div>
+                  <div className="text-sm text-gray-600 line-clamp-2">
+                    {example.description}
+                  </div>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
         <InputBox
           value={description}
           onChange={setDescription}
