@@ -9,7 +9,7 @@ import PricingModal from "@/components/PricingModal";
 import AuthButton from "@/components/AuthButton";
 import { createClient } from "@/lib/supabase/client";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { AlertCircle, ChevronDown, ChevronUp } from "lucide-react";
+import { AlertCircle, ChevronDown, ChevronUp, Copy, Check } from "lucide-react";
 import Navbar from "@/components/NavBar";
 import { isValidArchitectureDescription } from "@/utils/validateDescription";
 
@@ -25,6 +25,7 @@ export default function Home() {
   const [credits, setCredits] = useState<{ remaining: number } | null>(null);
   const [showPricing, setShowPricing] = useState(false);
   const [showExamples, setShowExamples] = useState(false);
+  const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
 
   const examples = [
     {
@@ -102,6 +103,16 @@ export default function Home() {
     }
   };
 
+  const copyToClipboard = async (text: string, index: number) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopiedIndex(index);
+      setTimeout(() => setCopiedIndex(null), 2000);
+    } catch (err) {
+      console.error("Failed to copy:", err);
+    }
+  };
+
   const generate = async (refine = false) => {
     if (!user) {
       supabase.auth.signInWithOAuth({ provider: "google" });
@@ -176,17 +187,31 @@ export default function Home() {
               {examples.map((example, index) => (
                 <button
                   key={index}
-                  onClick={() => {
-                    setDescription(example.description);
-                    setShowExamples(false);
-                  }}
-                  className="w-full text-left p-3 bg-white rounded-md hover:bg-blue-50 hover:border-blue-200 border border-gray-200 transition-all group"
+                  onClick={() => copyToClipboard(example.description, index)}
+                  className="w-full text-left p-3 bg-white rounded-md hover:bg-blue-50 hover:border-blue-200 border border-gray-200 transition-all group relative"
                 >
-                  <div className="font-medium text-gray-900 group-hover:text-blue-600 mb-1">
-                    {index + 1}. {example.title}
-                  </div>
-                  <div className="text-sm text-gray-600 line-clamp-2">
-                    {example.description}
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex-1">
+                      <div className="font-medium text-gray-900 group-hover:text-blue-600 mb-1">
+                        {index + 1}. {example.title}
+                      </div>
+                      <div className="text-sm text-gray-600 line-clamp-2">
+                        {example.description}
+                      </div>
+                    </div>
+                    <div className="flex-shrink-0 flex items-center gap-1 text-xs font-medium">
+                      {copiedIndex === index ? (
+                        <>
+                          <Check className="w-4 h-4 text-green-600" />
+                          <span className="text-green-600">Copied!</span>
+                        </>
+                      ) : (
+                        <>
+                          <Copy className="w-4 h-4 text-gray-400 group-hover:text-blue-600" />
+                          <span className="text-gray-400 group-hover:text-blue-600">Copy</span>
+                        </>
+                      )}
+                    </div>
                   </div>
                 </button>
               ))}
